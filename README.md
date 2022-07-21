@@ -5,9 +5,10 @@ This is an application that provides APIs to upload videos, list all videos as w
 `size, length and extension` of the video. This is written using the `Django Rest Framework`.
 
 ### Available API endpoints:-
-- List all Videos ( GET request ) :-127.0.0.1:8000/videos
-- Upload a Video ( POST request, supports date range filter, size range filter, filter by extension ) :- 127.0.0.1:8000/videos/upload
-- Video Charges ( GET request/ size, length and extension query params are mandatory ) :- 127.0.0.1:8000/videos/charges
+- List all Videos ( GET request ) :-`127.0.0.1:8000/videos `
+- Upload a Video ( POST request, supports date range filter, size range filter, filter by extension ) :- `127.0.0.1:8000/videos/upload`. Date format should be
+`Year-Month-Day`
+- Video Charges ( GET request/ size, length and extension query params are mandatory ) :- `127.0.0.1:8000/videos/charges`. Length's format should be `Minutes:Seconds`
 
 ## Installation 
 1. Clone the repo.
