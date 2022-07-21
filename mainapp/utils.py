@@ -13,7 +13,7 @@ def validate_video(size,video_format,duration):
     error_messages = []
 
     if size > 1024:
-        error_messages.append("Video size should not exceed 1 GB.")
+        error_messages.append("Video size should not exceed 1 GB (1024 MB).")
     if video_format not in ['mp4','mkv']:
         error_messages.append(f"Files with {video_format} format not supported. Only MP4 or MKV video format supported.")
     if duration > 600:

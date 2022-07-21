@@ -45,17 +45,18 @@ class VideoListView(APIView):
     def get(self,request, format=None):
         initial_date = request.query_params.get('initial_date',timezone.datetime(2022,1,1)) 
         final_date = request.query_params.get('final_date', timezone.now())
-        min_size = request.query_params.get('min_size', 0)
-        max_size = request.query_params.get('max_size', 1025) # range checks files lesser than 1025, i.e upto 1024
+        min_size = float(request.query_params.get('min_size', 0))
+        max_size = float(request.query_params.get('max_size', 1024))
         video_format = request.query_params.get('extension', None)
         
         try:
             if type(initial_date) == str:
                 initial_date = timezone.datetime.strptime(initial_date, '%Y-%m-%d').date()
             if type(final_date) == str:
-                final_date = timezone.datetime.strptime(final_date, '%Y-%m-%d').date() + timezone.timedelta(days=1) # adding 1 day to made compatible with range
+                # adding 1 day to made compatible with __range filter because range uses "less than" max value and not "less than or equal to" while comparing.
+                final_date = timezone.datetime.strptime(final_date, '%Y-%m-%d').date() + timezone.timedelta(days=1)
 
-            videos = Video.objects.filter(size__range=[min_size,max_size], created__range=[initial_date,final_date],
+            videos = Video.objects.filter(size__gte=min_size, size__lte=max_size, created__range=[initial_date,final_date],
                                         extension__in=[video_format] if video_format else ['mp4','mkv'])
             serializer = VideoSerializer(videos, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -70,7 +71,7 @@ class VideoChargesView(APIView):
     """ For providing charges info  """
 
     def get(self, request, format=None):
-        size = request.query_params.get('size')
+        size = (request.query_params.get('size'))
         duration = request.query_params.get('length') # expecting video length format as minute:second
         video_format = request.query_params.get('extension')
         error = ""         
@@ -85,7 +86,7 @@ class VideoChargesView(APIView):
         #converting the duration in Minutes:Seconds format to seconds
         duration = duration.split(":")
         duration = int(duration[0])*60 + int(duration[1])
-        error_messages = validate_video(int(size),video_format,duration)
+        error_messages = validate_video(float(size),video_format,duration)
         
         if error_messages:
             return Response({'error':error_messages}, status=status.HTTP_400_BAD_REQUEST)
