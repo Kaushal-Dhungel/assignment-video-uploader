@@ -1,7 +1,7 @@
 from django.test import TestCase
-from mainapp.models import *
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.files import File
+from mainapp.models import *
 
 class TestModel(TestCase):
     

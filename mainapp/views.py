@@ -1,13 +1,14 @@
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+import re
 from .serializers import *
 from .models import *
 from .serializers import *
-from django.utils import timezone
 from .utils import get_duration,validate_video
-import re
+
 
 def homeView (request,*args, **kwargs):
 	return render(request, 'index.html')

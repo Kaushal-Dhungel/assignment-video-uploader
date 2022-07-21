@@ -1,6 +1,5 @@
-from django.test import TestCase, SimpleTestCase
+from django.test import SimpleTestCase
 from django.urls import resolve, reverse
-
 from mainapp.views import  *
 
 class TestMainappUrls(SimpleTestCase):
