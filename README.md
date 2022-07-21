@@ -35,4 +35,10 @@ $ cp env.txt .env
 $ python3 manage.py runserver
 ```
 
+### Optional
+6. Run the tests.
+```sh
+$ python3 manage.py test mainapp
+```
+
 ## Have a great day ..  :blush: :heart: :)
